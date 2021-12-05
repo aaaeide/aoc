@@ -45,4 +45,16 @@ defmodule Aoc21.Input do
       end)
     }
   end
+
+  # Day 5
+  def read_line_segments(filename) do
+    do_readlines(filename)
+    |> Enum.map(&String.split(&1, " -> "))
+    |> Enum.map(fn [fromstr, tostr] ->
+      {
+        String.split(fromstr, ",") |> Enum.map(&String.to_integer/1) |> List.to_tuple(),
+        String.split(tostr, ",") |> Enum.map(&String.to_integer/1) |> List.to_tuple()
+      }
+    end)
+  end
 end
