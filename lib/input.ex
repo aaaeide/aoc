@@ -6,21 +6,23 @@ defmodule Aoc21.Input do
     |> String.split(delim, trim: true)
   end
 
-  # Day 1
-  def readlines(filename, as: :integer) do
-    do_readlines(filename)
+  # Day 1, 6
+  def readlines(filename, delim \\ "\n", as)
+
+  def readlines(filename, delim, as: :integer) do
+    do_readlines(filename, delim)
     |> Enum.map(&String.to_integer(&1))
   end
 
   # Day 2
-  def readlines(filename, as: {:string, :integer}) do
+  def readlines(filename, _, as: {:string, :integer}) do
     do_readlines(filename)
     |> Enum.map(&String.split(&1, " "))
     |> Enum.map(fn [str, int] -> {str, String.to_integer(int)} end)
   end
 
   # Day 3
-  def readlines(filename, as: {:integer}) do
+  def readlines(filename, _, as: {:integer}) do
     do_readlines(filename)
     |> Enum.map(fn line ->
       line
