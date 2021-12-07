@@ -3,10 +3,11 @@ defmodule Aoc21.Input do
 
   defp do_readlines(filename, delim \\ "\n") do
     File.read!("#{@inputsfolder}/#{filename}")
+    |> String.trim()
     |> String.split(delim, trim: true)
   end
 
-  # Day 1, 6
+  # Day 1, 6, 7
   def readlines(filename, delim \\ "\n", as)
 
   def readlines(filename, delim, as: :integer) do
