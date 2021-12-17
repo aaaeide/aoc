@@ -60,4 +60,13 @@ defmodule Aoc21.Input do
       }
     end)
   end
+
+  # Day 8
+  def read_seven_seg_scramble(filename) do
+    do_readlines(filename)
+    |> Enum.map(&String.split(&1, " | "))
+    |> Enum.map(fn [patterns, output] ->
+      {patterns |> String.split(" "), output |> String.split(" ")}
+    end)
+  end
 end
