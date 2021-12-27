@@ -13,6 +13,7 @@ defmodule Day08Test do
     assert [x, y, z] == ["fdgacbe", "cefdb", "cefbgd"]
   end
 
+  @tag :skip
   test "parses output", fixture do
     fixture.input
     |> Enum.each(fn line ->

@@ -32,6 +32,16 @@ defmodule Aoc21.Input do
     end)
   end
 
+  # Day 9
+  def readlines(filename, _, as: [:integer]) do
+    do_readlines(filename)
+    |> Enum.map(fn line ->
+      line
+      |> String.graphemes()
+      |> Enum.map(&String.to_integer/1)
+    end)
+  end
+
   # Day 4
   def readbingo(filename) do
     [numbers | boards] = do_readlines(filename, "\n\n")
