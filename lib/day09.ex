@@ -65,6 +65,7 @@ defmodule Aoc21.Day09 do
   def explore_basin(_hm, pts, []), do: pts
 
   def explore_basin(hm, points, _to_explore = [{x, y} | rest]) do
+    # Recursive BFS
     if hm |> at(x, y) < 9 and {x, y} not in points do
       explore_basin(hm, points ++ [{x, y}], rest ++ get_neighbors(hm, x, y))
     else
@@ -72,15 +73,47 @@ defmodule Aoc21.Day09 do
     end
   end
 
+  def prettyprint_basins(basins, heightmap) do
+    to_print = basins |> List.flatten()
+
+    0..(length(heightmap) - 1)
+    |> Enum.reduce(["\n"], fn i, rows ->
+      rows ++
+        [
+          0..(length(heightmap |> Enum.at(i)) - 1)
+          |> Enum.reduce('', fn j, chlst ->
+            chlst ++
+              if {j, i} in to_print do
+                heightmap |> at(j, i) |> Integer.to_charlist()
+              else
+                '_'
+              end
+          end)
+          |> List.to_string()
+        ]
+    end)
+    |> Enum.join("\n")
+    |> IO.puts()
+  end
+
   def do_part2(heightmap) do
     find_basins(heightmap)
     |> Enum.map(&length/1)
+    |> Enum.sort()
+    |> Enum.reverse()
+    |> Enum.take(3)
     |> Enum.product()
   end
 
   def part1() do
     readlines("i9.txt", as: [:integer])
     |> find_lowpoint_score()
+    |> IO.puts()
+  end
+
+  def part2() do
+    readlines("i9.txt", as: [:integer])
+    |> do_part2()
     |> IO.puts()
   end
 end
