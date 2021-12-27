@@ -42,6 +42,12 @@ defmodule Aoc21.Input do
     end)
   end
 
+  # Day 10
+  def readlines(filename, _, as: [:charlist]) do
+    do_readlines(filename)
+    |> Enum.map(&String.to_charlist/1)
+  end
+
   # Day 4
   def readbingo(filename) do
     [numbers | boards] = do_readlines(filename, "\n\n")
