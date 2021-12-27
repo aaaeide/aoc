@@ -1,7 +1,7 @@
 defmodule Day08Test do
   use ExUnit.Case
   import Aoc21.Input, only: [read_seven_seg_scramble: 1]
-  import Aoc21.Day08, only: [do_part1: 1]
+  import Aoc21.Day08, only: [parse: 1]
 
   setup_all do
     [input: read_seven_seg_scramble("t8.txt")]
@@ -13,7 +13,10 @@ defmodule Day08Test do
     assert [x, y, z] == ["fdgacbe", "cefdb", "cefbgd"]
   end
 
-  test "part 1", fixture do
-    assert fixture.input |> do_part1() == 26
+  test "parses output", fixture do
+    fixture.input
+    |> Enum.each(fn line ->
+      line |> parse() |> IO.inspect()
+    end)
   end
 end
