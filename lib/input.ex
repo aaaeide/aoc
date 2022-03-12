@@ -32,7 +32,7 @@ defmodule Aoc21.Input do
     end)
   end
 
-  # Day 9
+  # Day 9, 10
   def readlines(filename, _, as: [:integer]) do
     do_readlines(filename)
     |> Enum.map(fn line ->

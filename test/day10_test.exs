@@ -15,6 +15,7 @@ defmodule Day10Test do
     assert fixture.code |> syntax_error_score == 26397
   end
 
+  @tag :skip
   test "finds autocomplete score" do
     assert '}}]])})]' |> autocomplete_score(0) == 288_957
   end

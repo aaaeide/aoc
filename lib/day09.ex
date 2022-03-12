@@ -1,7 +1,7 @@
 defmodule Aoc21.Day09 do
   import Aoc21.Input, only: [readlines: 2]
 
-  defp at(matrix, x, y), do: matrix |> Enum.at(y) |> Enum.at(x)
+  def at(matrix, x, y), do: matrix |> Enum.at(y) |> Enum.at(x)
 
   def find_lowpoints(heightmap) do
     0..(length(heightmap) - 1)
@@ -24,8 +24,8 @@ defmodule Aoc21.Day09 do
     end)
   end
 
-  @spec get_neighbors(list(list(integer)), integer, integer) :: [integer]
-  defp get_neighbors(hm, x, y) do
+  @spec get_neighbors(list(list(integer)), integer, integer) :: [{integer, integer}]
+  def get_neighbors(hm, x, y) do
     [
       upneighbor(hm, x, y),
       leftneighb(hm, x, y),
