@@ -3,18 +3,55 @@ defmodule Aoc21.Day11 do
   @type coord :: {integer(), integer()}
   @type coordset :: MapSet.t({integer(), integer()})
 
-  @spec step(grid(), integer(), integer()) :: {grid(), integer()}
-  def step(grid, n, cnt \\ 0)
+  import Aoc21.Input, only: [readlines: 2]
 
-  def step(grid, 0, flash_cnt), do: {grid, flash_cnt}
+  @spec step_n(grid(), integer(), integer()) :: {grid(), integer()}
+  def step_n(grid, n, cnt \\ 0)
 
-  def step(grid, n, flash_cnt) do
+  def step_n(grid, 0, flash_cnt), do: {grid, flash_cnt}
+
+  def step_n(grid, n, flash_cnt) do
     {new_grid, num_new_flashes} =
       grid
-      |> increment_cells
+      |> update_cells(fn _coord, val -> val + 1 end)
       |> cascade(MapSet.new(), MapSet.new())
 
-    step(new_grid, n - 1, flash_cnt + num_new_flashes)
+    # reset cells whose value is greater than 9
+    new_grid =
+      new_grid
+      |> update_cells(fn _coord, val ->
+        if val > 9 do
+          0
+        else
+          val
+        end
+      end)
+
+    step_n(new_grid, n - 1, flash_cnt + num_new_flashes)
+  end
+
+  def step_until(grid, stop_when_true, step_cnt) do
+    {new_grid, _num_new_flashes} =
+      grid
+      |> update_cells(fn _coord, val -> val + 1 end)
+      |> cascade(MapSet.new(), MapSet.new())
+
+    # reset cells whose value is greater than 9
+    new_grid =
+      new_grid
+      |> update_cells(fn _coord, val ->
+        if val > 9 do
+          0
+        else
+          val
+        end
+      end)
+
+    if stop_when_true.(new_grid) do
+      step_cnt
+    else
+      step_until(new_grid, stop_when_true, step_cnt + 1)
+    end
   end
 
   @spec cascade(grid(), coordset(), coordset(), integer() | nil) :: {grid(), integer()}
@@ -36,51 +73,31 @@ defmodule Aoc21.Day11 do
       end)
 
     # increment cells
-    new_grid =
+    grid =
       grid
-      |> Enum.with_index()
-      |> Enum.map(fn {row, y} ->
-        row
-        |> Enum.with_index()
-        |> Enum.map(fn {val, x} ->
-          if Map.has_key?(to_inc, {x, y}) do
-            val + to_inc[{x, y}]
-          else
-            val
-          end
-        end)
+      |> update_cells(fn coord, val ->
+        if Map.has_key?(to_inc, coord) do
+          val + to_inc[coord]
+        else
+          val
+        end
       end)
 
     # figure out which cells flashed this round by comparing w old all_flashed
-    new_all_flashed = new_grid |> get_cells_above(9)
+    new_all_flashed = grid |> get_cells_above(9)
     new_flashed = new_all_flashed |> MapSet.difference(all_flashed)
 
     # recurse
-    cascade(new_grid, new_all_flashed, new_flashed, MapSet.size(new_flashed))
+    cascade(grid, new_all_flashed, new_flashed, MapSet.size(new_flashed))
   end
 
-  @spec increment_cells(grid(), coordset()) :: grid()
-  def increment_cells(grid, which) do
+  def update_cells(grid, func) do
     grid
     |> Enum.with_index()
     |> Enum.map(fn {row, y} ->
       row
       |> Enum.with_index()
-      |> Enum.map(fn {val, x} ->
-        if {x, y} in which do
-          val + 1
-        else
-          val
-        end
-      end)
-    end)
-  end
-
-  @spec increment_cells(grid()) :: grid()
-  def increment_cells(grid) do
-    grid
-    |> Enum.map(fn row ->
-      row |> Enum.map(fn val -> val + 1 end)
+      |> Enum.map(fn {val, x} -> func.({x, y}, val) end)
     end)
   end
 
@@ -115,5 +132,23 @@ defmodule Aoc21.Day11 do
         end
       end)
     end)
+  end
+
+  def all_zero_grid(grid) do
+    grid |> List.flatten() |> MapSet.new() == MapSet.new([0])
+  end
+
+  def part1() do
+    {_, flash_cnt} =
+      readlines("i11.txt", as: [:integer])
+      |> step_n(100)
+
+    IO.puts(flash_cnt)
+  end
+
+  def part2() do
+    readlines("i11.txt", as: [:integer])
+    |> step_until(&all_zero_grid/1, 1)
+    |> IO.puts()
   end
 end
