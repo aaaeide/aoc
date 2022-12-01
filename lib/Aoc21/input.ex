@@ -1,5 +1,5 @@
 defmodule Aoc21.Input do
-  @inputsfolder "inputs"
+  @inputsfolder "inputs/21"
 
   defp do_readlines(filename, delim \\ "\n") do
     File.read!("#{@inputsfolder}/#{filename}")
