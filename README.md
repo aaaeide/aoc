@@ -1,5 +1,6 @@
-# Advent of Code 2021
+# Advent of Code
 
-Årets språk: Elixir.
+My Advent of Code solutions in Elixir.
 
-For å kjøre løsningen for dag 1, del 2: `mix run -e "Aoc21.Day01.part2()"`
+Most days are run in this manner (switch the day and part number as needed):  `mix run -e "Aoc21.Day01.part2()"`
+To run tests: `mix test`
