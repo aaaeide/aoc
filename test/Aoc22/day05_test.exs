@@ -1,6 +1,6 @@
 defmodule Aoc22.Day05Test do
   use ExUnit.Case
-  import Aoc22.Day05, only: [solve: 1, parse: 1]
+  import Aoc22.Day05, only: [solve: 2, parse: 1]
 
   test "parse" do
     assert parse("inputs/22/t5.txt") == {
@@ -10,6 +10,6 @@ defmodule Aoc22.Day05Test do
   end
 
   test "part 1" do
-    assert parse("inputs/22/t5.txt") |> solve() == 'CMZ'
+    assert parse("inputs/22/t5.txt") |> solve(1) == 'CMZ'
   end
 end

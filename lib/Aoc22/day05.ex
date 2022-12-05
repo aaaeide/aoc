@@ -38,15 +38,10 @@ defmodule Aoc22.Day05 do
 
   defp update(part) do
     fn [amt, frm, to], s ->
-      frm_stk = Map.get(s, frm)
-      to_stk = Map.get(s, to)
-
-      mov = Enum.slice(frm_stk, 0..(amt - 1))
+      {mov, rst} = Enum.split(s[frm], amt)
       mov = if part == 1, do: Enum.reverse(mov), else: mov
 
-      s
-      |> Map.update(frm, nil, fn _ -> Enum.slice(frm_stk, amt..-1) end)
-      |> Map.update(to, nil, fn _ -> [mov | to_stk] |> List.flatten() end)
+      %{s | frm => rst, to => [mov | s[to]] |> List.flatten()}
     end
   end
 
