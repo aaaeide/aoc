@@ -1,17 +1,10 @@
 defmodule Aoc22.Day06 do
-  import Enum, only: [find: 2, uniq: 1, slice: 2]
-
-  defp find_marker(stream, size) do
-    (size - 1)..length(stream)
-    |> find(fn i -> uniq(slice(stream, (i - size + 1)..i)) |> length == size end)
-    |> (&(&1 + 1)).()
-  end
-
   def solve(size) do
     File.read!("inputs/22/i6.txt")
     |> String.to_charlist()
-    |> find_marker(size)
-    |> IO.puts()
+    |> Enum.chunk_every(size, 1)
+    |> Enum.find_index(&(length(Enum.uniq(&1)) == size))
+    |> (&IO.puts(&1 + size)).()
   end
 
   def part1(), do: solve(4)
