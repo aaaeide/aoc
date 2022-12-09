@@ -2,11 +2,13 @@ defmodule Aoc22.Day07Test do
   use ExUnit.Case
   import Aoc22.Day07, only: [build_tree_from_input: 1, do_part1: 1]
 
+  @tag :skip
   test "leaf size" do
     tree = build_tree_from_input("inputs/22/t7.txt")
     assert tree["e"] == %{up: "a", down: [], files: [{584, "i"}], size: 584}
   end
 
+  @tag :skip
   test "inner node sies" do
     tree = build_tree_from_input("inputs/22/t7.txt")
 
@@ -37,6 +39,7 @@ defmodule Aoc22.Day07Test do
            }
   end
 
+  @tag :skip
   test "part 1" do
     assert do_part1("inputs/22/t7.txt") == 95437
   end
