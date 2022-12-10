@@ -16,15 +16,14 @@ defmodule Aoc22.Day10 do
     |> elem(0)
   end
 
-  def do_part1(path \\ "inputs/22/i10.txt") do
+  def part1(path \\ "inputs/22/i10.txt") do
     x_val = parse(path)
 
     [20, 60, 100, 140, 180, 220]
     |> Enum.map(&(Enum.at(x_val, &1 - 2) * &1))
     |> Enum.sum()
+    |> IO.inspect()
   end
-
-  def part1(), do: do_part1() |> IO.puts()
 
   def sprite(x), do: (x - 1)..(x + 1)
   def mod(x, m) when x >= m, do: (x - m) |> mod(m)
