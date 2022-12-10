@@ -24,3 +24,6 @@ aoc21-*.tar
 
 # Temporary files, for example, from tests.
 /tmp/
+
+
+inputs/**
