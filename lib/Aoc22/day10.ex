@@ -25,17 +25,13 @@ defmodule Aoc22.Day10 do
     |> IO.inspect()
   end
 
-  def sprite(x), do: (x - 1)..(x + 1)
-  def mod(x, m) when x >= m, do: (x - m) |> mod(m)
-  def mod(x, m) when x < m, do: x
-
   def part2(path \\ "inputs/22/i10.txt") do
     ([1] ++ parse(path))
     |> Enum.reduce({'', 0}, fn x, {crt, px} ->
-      if px in sprite(x) do
-        {crt ++ '██', (px + 1) |> mod(40)}
+      if px in (x - 1)..(x + 1) do
+        {crt ++ '██', (px + 1) |> rem(40)}
       else
-        {crt ++ '  ', (px + 1) |> mod(40)}
+        {crt ++ '  ', (px + 1) |> rem(40)}
       end
     end)
     |> elem(0)
