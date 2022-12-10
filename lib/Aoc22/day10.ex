@@ -33,13 +33,13 @@ defmodule Aoc22.Day10 do
     ([1] ++ parse(path))
     |> Enum.reduce({'', 0}, fn x, {crt, px} ->
       if px in sprite(x) do
-        {crt ++ '█', (px + 1) |> mod(40)}
+        {crt ++ '██', (px + 1) |> mod(40)}
       else
-        {crt ++ ' ', (px + 1) |> mod(40)}
+        {crt ++ '  ', (px + 1) |> mod(40)}
       end
     end)
     |> elem(0)
-    |> Enum.chunk_every(40)
+    |> Enum.chunk_every(80)
     |> Enum.map(&List.to_string/1)
     |> IO.inspect()
   end
