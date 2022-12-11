@@ -55,11 +55,11 @@ defmodule Aoc22.Day11 do
 
       items =
         thrower[:items]
-        |> Enum.map(&thrower[:func].(&1))
-        |> Enum.map(&div(&1, div_by))
+        |> map(&thrower[:func].(&1))
+        |> map(&div(&1, div_by))
 
       acc_monkeys
-      |> Enum.map(fn monkey ->
+      |> map(fn monkey ->
         case monkey[:id] do
           ^self ->
             Map.update!(monkey, :items, fn _ -> [] end)
@@ -84,7 +84,7 @@ defmodule Aoc22.Day11 do
   end
 
   def calculate_monkey_business(monkeys) do
-    monkeys |> Enum.map(& &1[:activity]) |> Enum.sort() |> Enum.slice(-2..-1) |> Enum.product()
+    monkeys |> map(& &1[:activity]) |> Enum.sort() |> Enum.slice(-2..-1) |> Enum.product()
   end
 
   def part1(), do: parse_monkeys() |> round(20, 3) |> calculate_monkey_business() |> IO.puts()
